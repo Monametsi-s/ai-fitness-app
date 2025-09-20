@@ -1,8 +1,8 @@
 export default {
   providers: [
     {
-      domain: "amazed-barnacle-90.clerk.accounts.dev",
-      applicationID: "clerk",
+      domain: "https://amazed-barnacle-90.clerk.accounts.dev",
+      applicationID: "convex",
     },
   ],
 } as const;
