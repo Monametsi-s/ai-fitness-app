@@ -4,13 +4,11 @@ import React from 'react'
 const HomePage = () => {
   return (
     <div>
-      
-        HomePage
       <SignedIn>
         <SignOutButton />
       </SignedIn>
       <SignedOut>
-        <SignIn />
+        <SignIn routing="hash" />
       </SignedOut>
     </div>
   )
