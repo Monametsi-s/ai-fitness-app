@@ -3,6 +3,8 @@ import { ArrowRightIcon } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import TerminalOverlay from "@/components/ui/TerminalOverlay";
+import UserPrograms from "@/components/UserPrograms";
 
 const HomePage = () => {
   return (
