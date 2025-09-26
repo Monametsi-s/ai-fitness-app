@@ -97,11 +97,16 @@ const HomePage = () => {
               {/* IMAGE CONTAINER */}
               <div className="relative aspect-square max-w-lg mx-aut">
                 <div className="relative overflow-hidden rounded-lg bg-cyber-black">
-                  <Image
-                    src="/gyme.png"
-                    alt="Ai Fitness Coach"
-                    className="size-full object-cover object-center"
-                  />
+                  <div className="relative w-full aspect-square max-w-lg mx-auto">
+  <Image
+    src="/gyme.png"
+    alt="AI Fitness Coach"
+    fill
+    className="object-cover object-center rounded-lg"
+    priority
+  />
+</div>
+
 
                   {/* SCAN LINE */}
                   <div className="absolute inset-0 bg-[linear-gradient(transparent_0%,transparent_calc(50%-1px),var(--cyber-glow-primary)_50%,transparent_calc(50%+1px),transparent_100%)] bg-[length:100%_8px] pointer-events-none" />
