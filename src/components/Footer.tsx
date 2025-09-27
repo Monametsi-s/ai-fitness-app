@@ -1,8 +1,14 @@
 import React from 'react'
 
+
 const Footer = () => {
   return (
-    <div>Footer</div>
+    <footer className="border-t border-border bg-background/">
+
+    </footer>
+
+
+    
   )
 }
 
