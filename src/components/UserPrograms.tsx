@@ -1,11 +1,12 @@
 //temp code enabling scroll to cards content
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AppleIcon, Clock, Dumbbell, Sparkles, Users } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { AppleIcon, ChevronRight, Clock, Dumbbell, Link, ShieldIcon, Sparkles, Users } from "lucide-react";
 import { USER_PROGRAMS } from "@/constants";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { Button } from "./ui/button";
 
 
 const UserPrograms = () => {
@@ -156,13 +157,62 @@ const UserPrograms = () => {
                       </p>
                     </div>
                   </div>
-                  
+
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5" >
+                    
+                      <ShieldIcon className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-medium text-foreground">
+                          AI Safety Protocols
+                        </h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Protection systems enabled
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                
+
+                {/* Program description */}
+                <div className="mt-5 pt-5 border-t border-border">
+                  <div className="text-sm text-muted-foreground">
+                    <span className="text-primary">
+                      &gt; 
+                    </span>
+                    {program.workout_plan.description.substring(0, 130)}...
+                  </div>
+                </div>
               </CardContent>
+
+              <CardFooter className="px-5 py-4 border-t border-border">
+                <Link href={`/programs/${program.id}`} className="w-full">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                    View Program Details
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </CardFooter>
             </Card>
           ))}
-          
+        </div>
+
+        {/* CTA section */}
+        <div className="mt-16 text-center">
+          <Link href="/generate-program">
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg"
+            >
+              Generate Your Program
+              <Sparkles className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <p className="text-muted-foreground mt-4">
+            Join 500+ users with AI-customized fitness programs
+          </p>
         </div>
       </div>
     </div>
