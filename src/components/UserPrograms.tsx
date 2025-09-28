@@ -1,6 +1,3 @@
-//temp code enabling scroll to cards content
-"use client";
-
 import {
   Card,
   CardContent,
@@ -19,20 +16,10 @@ import {
 } from "lucide-react";
 import { USER_PROGRAMS } from "@/constants";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
 const UserPrograms = () => {
-  //temp code enabling scroll to cards content
-  const scrollTargetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (scrollTargetRef.current) {
-      scrollTargetRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
-
   return (
     <div className="w-full pb-24 pt-16 relative">
       <div className="container mx-auto max-w-6xl px-4">
@@ -88,10 +75,7 @@ const UserPrograms = () => {
         </div>
 
         {/* Program cards */}
-        <div
-          ref={scrollTargetRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {USER_PROGRAMS.map((program) => (
             <Card
               key={program.id}
