@@ -1,13 +1,27 @@
 //temp code enabling scroll to cards content
-"use client"
+"use client";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { AppleIcon, ChevronRight, Clock, Dumbbell, Link, ShieldIcon, Sparkles, Users } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  AppleIcon,
+  ChevronRight,
+  Clock,
+  Dumbbell,
+  ShieldIcon,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { USER_PROGRAMS } from "@/constants";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
-
+import Link from "next/link";
 
 const UserPrograms = () => {
   //temp code enabling scroll to cards content
@@ -15,7 +29,7 @@ const UserPrograms = () => {
 
   useEffect(() => {
     if (scrollTargetRef.current) {
-      scrollTargetRef.current.scrollIntoView({ behavior: 'smooth' });
+      scrollTargetRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
@@ -28,7 +42,9 @@ const UserPrograms = () => {
           <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-background/70">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
-              <span className="text-sm text-primary font-medium">Program Gallery</span>
+              <span className="text-sm text-primary font-medium">
+                Program Gallery
+              </span>
             </div>
             <div className="text-sm text-muted-foreground">Featured Plans</div>
           </div>
@@ -41,7 +57,8 @@ const UserPrograms = () => {
             </h2>
 
             <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-10">
-              Explore personalized fitness plans our AI assistant has created for other users
+              Explore personalized fitness plans our AI assistant has created
+              for other users
             </p>
 
             {/* STATS */}
@@ -71,7 +88,10 @@ const UserPrograms = () => {
         </div>
 
         {/* Program cards */}
-        <div ref={scrollTargetRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          ref={scrollTargetRef}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
           {USER_PROGRAMS.map((program) => (
             <Card
               key={program.id}
@@ -81,7 +101,9 @@ const UserPrograms = () => {
               <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-background/70">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span className="text-sm text-primary">USER.{program.id}</span>
+                  <span className="text-sm text-primary">
+                    USER.{program.id}
+                  </span>
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {program.fitness_level.toUpperCase()}
@@ -110,16 +132,16 @@ const UserPrograms = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-between items-center gap-4">
                   <div className="px-3 py-1 bg-primary/10 rounded border border-primary/20 text-sm text-primary flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
                     {program.fitness_goal}
-                </div>
-                <div className="text-sm text-muted-foreground flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  v3.5
-                </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    v3.5
+                  </div>
                 </div>
               </CardHeader>
 
@@ -141,7 +163,7 @@ const UserPrograms = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="p-2 rounded-md bg-secondary/10 text-secondary mt-0.5">
                       <AppleIcon className="h-5 w-5" />
@@ -151,7 +173,7 @@ const UserPrograms = () => {
                         <h3 className="font-medium text-foreground">
                           {program.diet_plan.title}
                         </h3>
-                  </div>
+                      </div>
                       <p className="text-sm text-muted-foreground mt-1">
                         System optimized nutrition
                       </p>
@@ -159,8 +181,7 @@ const UserPrograms = () => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5" >
-                    
+                    <div className="p-2 rounded-md bg-primary/10 text-primary mt-0.5">
                       <ShieldIcon className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
@@ -179,9 +200,7 @@ const UserPrograms = () => {
                 {/* Program description */}
                 <div className="mt-5 pt-5 border-t border-border">
                   <div className="text-sm text-muted-foreground">
-                    <span className="text-primary">
-                      &gt; 
-                    </span>
+                    <span className="text-primary">&gt;</span>
                     {program.workout_plan.description.substring(0, 130)}...
                   </div>
                 </div>
