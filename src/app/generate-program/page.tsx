@@ -4,16 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { vapi } from "@/lib/vapi";
 import { useUser } from "@clerk/nextjs";
-import { Span } from "next/dist/trace";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useRef, useState } from "react";
-import { set } from "zod";
+import { useEffect, useRef, useState } from "react";
 
 const GenerateProgramPage = () => {
   const [callActive, setCallActive] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [messages, setMessages] = useState<any[]>([]);
+  type ChatMessage = { content: string; role: "user" | "assistant" | string };
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [callEnded, setCallEnded] = useState(false);
 
   const { user } = useUser();
@@ -89,9 +88,23 @@ const GenerateProgramPage = () => {
       setIsSpeaking(false);
     };
 
-    const handleMessage = (message: any) => {
-      if (message.type === "transcript" && message.transcriptType === "final") {
-        const newMessage = { content: message.transcript, role: message.role };
+    type VapiMessage = {
+      type?: string;
+      transcriptType?: string;
+      transcript?: string;
+      role?: string;
+    };
+    const handleMessage = (message: VapiMessage) => {
+      if (
+        message?.type === "transcript" &&
+        message?.transcriptType === "final" &&
+        typeof message.transcript === "string" &&
+        typeof message.role === "string"
+      ) {
+        const newMessage: ChatMessage = {
+          content: message.transcript,
+          role: message.role,
+        };
         setMessages((prev) => [...prev, newMessage]);
       }
     };
@@ -102,23 +115,22 @@ const GenerateProgramPage = () => {
       setCallActive(false);
     };
 
-    vapi
-      .on("call-start", handleCallStart)
-      .on("call-end", handleCallEnd)
-      .on("speech-start", handleSpeechStart)
-      .on("speech-end", handleSpeechEnd)
-      .on("message", handleMessage)
-      .on("error", handleError);
+    // Attach listeners (no chaining; .on returns void in some SDK versions)
+    vapi.on("call-start", handleCallStart);
+    vapi.on("call-end", handleCallEnd);
+    vapi.on("speech-start", handleSpeechStart);
+    vapi.on("speech-end", handleSpeechEnd);
+    vapi.on("message", handleMessage);
+    vapi.on("error", handleError);
 
     // cleanup event listeners on unmount
     return () => {
-      vapi
-        .off("call-start", handleCallStart)
-        .off("call-end", handleCallEnd)
-        .off("speech-start", handleSpeechStart)
-        .off("speech-end", handleSpeechEnd)
-        .off("message", handleMessage)
-        .off("error", handleError);
+      vapi.off("call-start", handleCallStart);
+      vapi.off("call-end", handleCallEnd);
+      vapi.off("speech-start", handleSpeechStart);
+      vapi.off("speech-end", handleSpeechEnd);
+      vapi.off("message", handleMessage);
+      vapi.off("error", handleError);
     };
   }, []);
 
@@ -134,13 +146,30 @@ const GenerateProgramPage = () => {
           ? `${user.firstName} ${user.lastName || ""}`.trim()
           : "Friend";
 
-        await vapi.start({
-          workflowId: process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!,
-          variableValues: {
-            full_name: fullName,
-            user_id: user?.id,
-          },
-        });
+        const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID;
+        const workflowId = process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID;
+
+        if (assistantId) {
+          await vapi.start({
+            assistantId,
+            metadata: {
+              full_name: fullName,
+              user_id: user?.id,
+            },
+          });
+        } else if (workflowId) {
+          await vapi.start({
+            workflowId,
+            variableValues: {
+              full_name: fullName,
+              user_id: user?.id,
+            },
+          });
+        } else {
+          throw new Error(
+            "Missing NEXT_PUBLIC_VAPI_ASSISTANT_ID (preferred) or NEXT_PUBLIC_VAPI_WORKFLOW_ID"
+          );
+        }
       } catch (error) {
         console.log("Failed to start call", error);
         setConnecting(false);
